@@ -1,0 +1,21 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+@import "tailwindcss";
+
+@tailwind utilities;
+
+@theme {
+  --color-card-color: #2c2638;
+  --color-nav-color: #212121;
+  --color-theme-color: #f56565;
+  --font-inter: "Inter", "sans-serif";
+}
+
+body {
+  font-family: inter;
+  color: #d1d1d1;
+}
+
+.btn {
+  @apply bg-white/20 font-medium   md:text-[15px] md:px-4 md:py-2 rounded-full focus:outline-none flex  items-center justify-center hover:bg-white/40 text-[14px] px-3 py-1;
+}
