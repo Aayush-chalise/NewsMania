@@ -1,29 +1,38 @@
 // App.jsx
 import "./index.css";
-
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import NewsContainer from "./components/NewsContainer";
+import Notes from "./components/Notes";
+import { Routes, Route, useLocation } from "react-router-dom";
 import NewsListProvider from "./context/NewsListProvider";
-import NewsCard from "./components/NewsCard";
-import Sidebar from "./components/Sidebar";
-import { useState } from "react";
+import NewsAuth from "./components/NewsAuth";
+import Home from "./components/Home";
+import { AnimatePresence } from "framer-motion";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  const [isLoginPage, setIsLoginPage] = useState(true);
+  const location = useLocation();
   return (
     <NewsListProvider>
-      <Router>
-        <Navbar />
-        <Sidebar />
-        <Routes>
-          <Route path="/" element={<h2 className="p-4"> </h2>} />
-          <Route path="/about" element={<h2 className="p-4">About Page</h2>} />
-          <Route path="/news" element={<h2 className="p-4">News</h2>} />
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<NewsAuth />} />
+          <Route
+            path="/home"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/notes"
+            element={
+              <ProtectedRoute>
+                <Notes />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
-        <NewsContainer />
-        <NewsCard />
-      </Router>
+      </AnimatePresence>
     </NewsListProvider>
   );
 }

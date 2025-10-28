@@ -2,7 +2,7 @@ import { Home, User, Settings, LogOut } from "lucide-react";
 
 const Sidebar = () => {
   return (
-    <div className="w-64 h-screen bg-nav-color text-white p-6 flex flex-col   left">
+    <div className="w-64 h-screen bg-card-color text-white p-6 flex flex-col   left">
       <h2 className="text-2xl font-bold mb-8">Dashboard</h2>
       <nav className="inline-block space-y-4">
         <a

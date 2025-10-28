@@ -1,20 +1,39 @@
 import { useState } from "react";
 import { Menu, X, ChevronDown, Newspaper } from "lucide-react"; // Install lucide-react or use any icon lib
 import * as motion from "motion/react-client";
+import { useContext } from "react";
+import NewsListContext from "../context/NewsListContext"; // Import your context
+import { useNavigate } from "react-router-dom";
+import { LogOut } from "lucide-react";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const Navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const { handleListItemClick } = useContext(NewsListContext);
   const dropdownItems = [
     "Sports",
+    "Entertainment",
+    "General",
+    "Health",
+    "Science",
+    "Technology",
+    "Business",
+    "Environment",
     "Politics",
-    "Education",
-    "International News",
+    "Top",
+    "World",
   ];
+  const handleClick = () => {
+    Navigate("/notes");
+  };
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    Navigate("/");
+  };
 
   return (
-    <header className="border-b border-white/10  bg-nav-color shadow-md px-4 py-3 sticky  z-50">
+    <header className="border-b border-white/10  bg-card-color shadow-md px-4 py-3 sticky  z-50">
       <div className=" mx-auto flex items-center justify-between">
         {/* Logo */}
         <a href="/" className="flex ">
@@ -42,7 +61,7 @@ export default function Header() {
                 duration: 0.15,
                 scale: { type: "spring", bounce: 0.1 },
               }}
-              className="absolute mt-2 w-36 bg-nav-color rounded-lg shadow-lg z-50 
+              className="absolute mt-2 w-36 bg-card-color rounded-lg shadow-lg z-50 
                      border border-white/10 p-3"
             >
               {dropdownItems.map((item) => (
@@ -51,6 +70,9 @@ export default function Header() {
                   whileHover={{
                     backgroundColor: "rgba(255,255,255,0.1)",
                     color: "#f56565", // or your theme color
+                  }}
+                  onClick={() => {
+                    handleListItemClick(item);
                   }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   className="w-full text-left font-medium text-[14px] block px-4 py-2 rounded-md text-white cursor-pointer"
@@ -61,17 +83,29 @@ export default function Header() {
             </motion.ul>
           )}
         </div>
-
-        <div className="flex justify-center items-center">
-          <input
-            type="text"
-            placeholder="Search for latest news..."
-            className="hidden md:block   w-96 px-1 py-2 border-0 border-b-1 border-b-white/20  focus:border-b-theme-color/70 focus:outline-none  "
-          />
+        <div>
+          <button onClick={handleClick} className="btn flex items-center gap-1">
+            Take Notes
+          </button>
         </div>
+
         {/* Desktop Nav */}
         <nav className="mr-3 hidden md:flex space-x-6 items-center">
           <ul className="flex space-x-6   font-medium">
+            <li>
+              <div>
+                <motion.button
+                  onClick={handleLogout}
+                  className=" flex items-center gap-1 font-medium"
+                  href="#"
+                  whileHover={{ scale: 1.1, color: "#f56565" }} // scale up + change color to theme color
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                  logout
+                  <LogOut size={18}></LogOut>
+                </motion.button>
+              </div>
+            </li>
             <li>
               <motion.a
                 href="#"
@@ -80,36 +114,6 @@ export default function Header() {
                 className=" text-[15px] "
               >
                 Home
-              </motion.a>
-            </li>
-            <li>
-              <motion.a
-                href="#"
-                whileHover={{ scale: 1.1, color: "#f56565" }} // scale up + change color to theme color
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="text-[15px]  "
-              >
-                About
-              </motion.a>
-            </li>
-            <li>
-              <motion.a
-                href="#"
-                whileHover={{ scale: 1.1, color: "#f56565" }} // scale up + change color to theme color
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="text-[15px]  "
-              >
-                Services
-              </motion.a>
-            </li>
-            <li>
-              <motion.a
-                href="#"
-                whileHover={{ scale: 1.1, color: "#f56565" }} // scale up + change color to theme color
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="text-[15px]  "
-              >
-                Contact
               </motion.a>
             </li>
           </ul>
@@ -164,13 +168,6 @@ export default function Header() {
               </a>
             </li>
           </ul>
-          <div className="px-4">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-full  py-1  border-0 border-b-1 border-b-white/20  focus:border-b-theme-color/70 focus:outline-none "
-            />
-          </div>
         </div>
       )}
     </header>
