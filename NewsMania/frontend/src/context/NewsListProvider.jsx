@@ -45,13 +45,16 @@ const NewsListProvider = ({ children }) => {
 
   const handleDeleteNoteBtn = async (noteId) => {
     try {
-      const res = await fetch(`http://localhost:5000/notes/${noteId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await fetch(
+        `https://newsmania-2.onrender.com/notes/${noteId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const data = await res.json();
       if (!res.ok) throw new Error("Failed to delete note");
       dispatchNotes({ type: "DELETE_NOTE", payload: noteId });
@@ -62,7 +65,7 @@ const NewsListProvider = ({ children }) => {
 
   const handleAddNoteBtn = async (note) => {
     try {
-      const res = await fetch("http://localhost:5000/notes", {
+      const res = await fetch("https://newsmania-2.onrender.com/notes", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -84,7 +87,7 @@ const NewsListProvider = ({ children }) => {
 
   const fetchNotes = async () => {
     try {
-      const res = await fetch("http://localhost:5000/notes", {
+      const res = await fetch("https://newsmania-2.onrender.com/notes", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -114,7 +117,7 @@ const NewsListProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:5000/fetch-feed")
+    fetch("https://newsmania-2.onrender.com/fetch-feed")
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
