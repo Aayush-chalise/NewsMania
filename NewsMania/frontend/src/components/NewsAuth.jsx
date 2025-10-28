@@ -25,23 +25,29 @@ export default function NewsAuth() {
     e.preventDefault();
     let data;
     if (!isLogin) {
-      const response = await fetch("http://localhost:5000/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "https://newsmania-2.onrender.com/auth/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
       data = await response.json();
       setResponseDataFromServer(data); // ✅ store the response data in state
     } else {
-      const response = await fetch("http://localhost:5000/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "https://newsmania-2.onrender.com/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
       data = await response.json();
     }
     if (data.token) {
@@ -123,3 +129,11 @@ export default function NewsAuth() {
     </motion.div>
   );
 }
+
+const response = await fetch("", {
+  method: "POST",
+  headers: {
+    "content-type": "application/json",
+  },
+  body: {},
+});
