@@ -1,13 +1,18 @@
 // NewsAuth.js
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export default function NewsAuth() {
-  const [isLogin, setIsLogin] = useState(true);
+  const [responseDataFromServer, setResponseDataFromServer] = useState(null); // ✅ state to store backend response
+
+  const [isLogin, setIsLogin] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     username: "",
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -16,23 +21,52 @@ export default function NewsAuth() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isLogin) {
-      console.log("Logging in with", formData);
-      // handle login API call
+    let data;
+    if (!isLogin) {
+      const response = await fetch("http://localhost:5000/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      data = await response.json();
+      setResponseDataFromServer(data); // ✅ store the response data in state
     } else {
-      console.log("Signing up with", formData);
-      // handle signup API call
+      const response = await fetch("http://localhost:5000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      data = await response.json();
+    }
+    if (data.token) {
+      localStorage.setItem("token", data.token); // Store token in localStorage
+      navigate("/home");
     }
   };
 
   return (
-    <div className="min-h-screen bg-card-color text-white flex items-center justify-center px-4">
+    <motion.div
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -50 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen bg-card-color text-white flex items-center justify-center px-4"
+    >
       <div className="w-full max-w-md  bg-  shadow-lg rounded-2xl bg-card-color  p-8">
         <h2 className="text-3xl font-bold text-center mb-6">
           {isLogin ? `Login to News Mania` : "Sign Up for News Mania"}
         </h2>
+        {responseDataFromServer && (
+          <h3 className=" ml-16 mb-5 text-theme-color">
+            {responseDataFromServer.error}
+          </h3>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {!isLogin && (
@@ -69,7 +103,7 @@ export default function NewsAuth() {
 
           <button
             type="submit"
-            className="w-full py-3 bg-[#6D54B5] hover:bg-[#574292] rounded-lg font-semibold transition"
+            className="w-full py-3 bg-theme-color hover:bg-[#d86e6e] rounded-lg font-semibold transition"
           >
             {isLogin ? "Login" : "Sign Up"}
           </button>
@@ -79,13 +113,13 @@ export default function NewsAuth() {
           {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
           <button
             type="button"
-            className="text-[#6D54B5] hover:underline"
+            className="text-theme-color hover:underline"
             onClick={() => setIsLogin(!isLogin)}
           >
             {isLogin ? "Sign Up" : "Login"}
           </button>
         </p>
       </div>
-    </div>
+    </motion.div>
   );
 }
