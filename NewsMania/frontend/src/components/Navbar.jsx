@@ -106,10 +106,10 @@ export default function Header() {
           >
             <User size={18} className="mb-1"></User>
             {responseDataFromServer && (
-              <motion.a className=" text-[15px] font-medium">
+              <motion.span className=" text-[15px] font-medium">
                 {" "}
                 {responseDataFromServer.user.username}{" "}
-              </motion.a>
+              </motion.span>
             )}
           </motion.a>
 
