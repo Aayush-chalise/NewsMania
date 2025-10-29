@@ -4,13 +4,16 @@ import * as motion from "motion/react-client";
 import { useContext } from "react";
 import NewsListContext from "../context/NewsListContext"; // Import your context
 import { useNavigate } from "react-router-dom";
-import { LogOut } from "lucide-react";
+import { LogOut, User } from "lucide-react";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const Navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const { handleListItemClick } = useContext(NewsListContext);
+  const responseDataFromServer = JSON.parse(localStorage.getItem("userData"));
+  console.log(responseDataFromServer);
+
   const dropdownItems = [
     "Sports",
     "Entertainment",
@@ -24,6 +27,7 @@ export default function Header() {
     "Top",
     "World",
   ];
+
   const handleClick = () => {
     Navigate("/notes");
   };
@@ -33,10 +37,10 @@ export default function Header() {
   };
 
   return (
-    <header className="border-b border-white/10  bg-card-color shadow-md px-4 py-3 sticky  z-50">
+    <header className=" text-white border-b border-white/10  bg-card-color shadow-md px-4 py-3 sticky  z-50">
       <div className=" mx-auto flex items-center justify-between">
         {/* Logo */}
-        <a href="/" className="flex ">
+        <a href="/home" className="flex ">
           <Newspaper className="text-theme-color mr-1.5" />
           <span className=" font-bold text-[15px] md:text-[17px] ">
             <span className="text-theme-color"> News</span>Mania
@@ -47,7 +51,7 @@ export default function Header() {
           {/* Dropdown Toggle Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="btn flex items-center gap-1"
+            className=" font-medium text-[15px] btn flex items-center gap-1"
           >
             Categories <ChevronDown size={18} />
           </button>
@@ -62,7 +66,7 @@ export default function Header() {
                 scale: { type: "spring", bounce: 0.1 },
               }}
               className="absolute mt-2 w-36 bg-card-color rounded-lg shadow-lg z-50 
-                     border border-white/10 p-3"
+                     border border-white/10 p-3 "
             >
               {dropdownItems.map((item) => (
                 <motion.li
@@ -84,39 +88,55 @@ export default function Header() {
           )}
         </div>
         <div>
-          <button onClick={handleClick} className="btn flex items-center gap-1">
+          <button
+            onClick={handleClick}
+            className="btn flex items-center gap-1 font-medium text-[15px]"
+          >
             Take Notes
           </button>
         </div>
 
         {/* Desktop Nav */}
-        <nav className="mr-3 hidden md:flex space-x-6 items-center">
-          <ul className="flex space-x-6   font-medium">
-            <li>
-              <div>
-                <motion.button
-                  onClick={handleLogout}
-                  className=" flex items-center gap-1 font-medium"
-                  href="#"
-                  whileHover={{ scale: 1.1, color: "#f56565" }} // scale up + change color to theme color
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                >
-                  logout
-                  <LogOut size={18}></LogOut>
-                </motion.button>
-              </div>
-            </li>
+        <nav className=" text-white mr-3 hidden md:flex space-x-6 items-center">
+          <motion.a
+            href="#"
+            whileHover={{ color: "#f56565" }} // scale up + change color to theme color
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            className="flex items-center gap-1 "
+          >
+            <User size={18} className="mb-1"></User>
+            {responseDataFromServer && (
+              <motion.a className=" text-[15px] font-medium">
+                {" "}
+                {responseDataFromServer.user.username}{" "}
+              </motion.a>
+            )}
+          </motion.a>
+
+          <ul className="flex space-x-6   font-bold">
             <li>
               <motion.a
                 href="#"
                 whileHover={{ scale: 1.1, color: "#f56565" }} // scale up + change color to theme color
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className=" text-[15px] "
+                className=" text-[15px] font-medium "
               >
                 Home
               </motion.a>
             </li>
           </ul>
+          <div>
+            <motion.button
+              onClick={handleLogout}
+              className=" flex items-center gap-1 font-medium text-[15px]"
+              href="#"
+              whileHover={{ scale: 1.1, color: "#f56565" }} // scale up + change color to theme color
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            >
+              logout
+              <LogOut size={18}></LogOut>
+            </motion.button>
+          </div>
         </nav>
 
         {/* Hamburger */}
@@ -133,7 +153,7 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden mt-3 space-y-2">
+        <div className="text-white md:hidden mt-3 space-y-2">
           <ul className="flex flex-col space-y-1   ">
             <li>
               <a
