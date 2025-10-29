@@ -71,7 +71,7 @@ export default function NewsAuth() {
         <h2 className="text-3xl font-bold text-center mb-6">
           {isLogin ? `Login to News Mania` : "Sign Up for News Mania"}
         </h2>
-        {savedData.error && (
+        {savedData && (
           <h3 className=" ml-16 mb-5 text-theme-color">{savedData.error}</h3>
         )}
 
