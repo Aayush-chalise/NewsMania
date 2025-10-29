@@ -1,11 +1,9 @@
 // NewsAuth.js
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 export default function NewsAuth() {
-  const [responseDataFromServer, setResponseDataFromServer] = useState(null); // ✅ state to store backend response
-
   const [isLogin, setIsLogin] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -36,7 +34,9 @@ export default function NewsAuth() {
         }
       );
       data = await response.json();
-      setResponseDataFromServer(data); // ✅ store the response data in state
+      if (data) {
+        localStorage.setItem("userData", JSON.stringify(data)); // store the whole response
+      }
     } else {
       const response = await fetch(
         "https://newsmania-2.onrender.com/auth/login",
@@ -52,9 +52,12 @@ export default function NewsAuth() {
     }
     if (data.token) {
       localStorage.setItem("token", data.token); // Store token in localStorage
+
       navigate("/home");
     }
   };
+
+  const savedData = JSON.parse(localStorage.getItem("userData"));
 
   return (
     <motion.div
@@ -68,10 +71,8 @@ export default function NewsAuth() {
         <h2 className="text-3xl font-bold text-center mb-6">
           {isLogin ? `Login to News Mania` : "Sign Up for News Mania"}
         </h2>
-        {responseDataFromServer && (
-          <h3 className=" ml-16 mb-5 text-theme-color">
-            {responseDataFromServer.error}
-          </h3>
+        {savedData.error && (
+          <h3 className=" ml-16 mb-5 text-theme-color">{savedData.error}</h3>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -129,11 +130,3 @@ export default function NewsAuth() {
     </motion.div>
   );
 }
-
-const response = await fetch("", {
-  method: "POST",
-  headers: {
-    "content-type": "application/json",
-  },
-  body: {},
-});

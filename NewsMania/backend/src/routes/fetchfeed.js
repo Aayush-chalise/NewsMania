@@ -16,14 +16,11 @@ const parser = new Parser({
 const feeds = [
   "https://nagariknews.nagariknetwork.com/feed",
   "https://www.newsofnepal.com/feed",
-  "https://www.onlinekhabar.com/feed",
-
   "https://www.rajdhanidaily.com/feed",
 ];
 
 router.get("/", async (req, res) => {
   try {
-    console.log("hello");
     const allArticles = [];
 
     for (const url of feeds) {
