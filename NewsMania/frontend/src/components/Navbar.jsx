@@ -164,14 +164,12 @@ export default function Header() {
               </a>
             </li>
             <li>
-              <div>
-                <button
-                  onClick={handleClick}
-                  className="btn flex items-center gap-1 font-medium text-[15px]"
-                >
-                  Take Notes
-                </button>
-              </div>
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className=" font-medium text-[15px] btn flex items-center gap-1"
+              >
+                Categories <ChevronDown size={18} />
+              </button>
             </li>
             <li>
               <motion.a
