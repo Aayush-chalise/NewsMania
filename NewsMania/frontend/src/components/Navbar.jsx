@@ -164,6 +164,16 @@ export default function Header() {
               </a>
             </li>
             <li>
+              <div>
+                <button
+                  onClick={handleClick}
+                  className="btn flex items-center gap-1 font-medium text-[15px]"
+                >
+                  Take Notes
+                </button>
+              </div>
+            </li>
+            <li>
               <motion.a
                 href="#"
                 whileHover={{ color: "#f56565" }} // scale up + change color to theme color
