@@ -164,28 +164,32 @@ export default function Header() {
               </a>
             </li>
             <li>
-              <a
+              <motion.a
                 href="#"
-                className="block px-4 py-2   hover:bg-white/20 rounded-md hover:text-theme-color"
+                whileHover={{ color: "#f56565" }} // scale up + change color to theme color
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="flex items-center gap-1 "
               >
-                About
-              </a>
+                <User size={18} className="mb-1"></User>
+                {responseDataFromServer && (
+                  <motion.span className=" text-[15px] font-medium">
+                    {" "}
+                    {responseDataFromServer.user.username}{" "}
+                  </motion.span>
+                )}
+              </motion.a>
             </li>
             <li>
-              <a
+              <motion.button
+                onClick={handleLogout}
+                className=" flex items-center gap-1 font-medium text-[15px]"
                 href="#"
-                className="block px-4 py-2 hover:bg-white/20 rounded-md hover:text-theme-color"
+                whileHover={{ scale: 1.1, color: "#f56565" }} // scale up + change color to theme color
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
-                Services
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 hover:bg-white/20 rounded-md hover:text-theme-color"
-              >
-                Contact
-              </a>
+                logout
+                <LogOut size={18}></LogOut>
+              </motion.button>
             </li>
           </ul>
         </div>
