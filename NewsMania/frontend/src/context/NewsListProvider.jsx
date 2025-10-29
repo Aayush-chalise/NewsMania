@@ -27,14 +27,14 @@ const reducerFuncForNotes = (currNotes, action) => {
 };
 
 const NewsListProvider = ({ children }) => {
-  // const apiKey = "pub_4c0831f5ecb64446876f2f109f33e735 ";
+  const apiKey = "pub_4c0831f5ecb64446876f2f109f33e735 ";
   const [category, setCategory] = useState("top");
-  // const [country, setCountry] = useState("np");
-  //   const url = `https://newsdata.io/api/1/news?apikey=${apiKey}&country=${country}&category=${category}
+  const [country, setCountry] = useState("np");
+  const url = `https://newsdata.io/api/1/news?apikey=${apiKey}&country=${country}&category=${category}
 
   // `;
   const token = localStorage.getItem("token"); // ✅ safe here
-  // var req = new Request(url);
+  var req = new Request(url);
 
   const [NewsList, dispatchNewsList] = useReducer(reducerFunction, []);
   const [notes, dispatchNotes] = useReducer(reducerFuncForNotes, []);
@@ -124,18 +124,18 @@ const NewsListProvider = ({ children }) => {
         addNewsList(data);
       });
 
-    // const controller = new AbortController();
-    // const signal = controller.signal;
+    const controller = new AbortController();
+    const signal = controller.signal;
 
-    // fetch(req, { signal })
-    //   .then((res) => res.json())
-    //   .then((obj) => {
-    //     addNewsList(obj);
-    //   });
+    fetch(req, { signal })
+      .then((res) => res.json())
+      .then((obj) => {
+        addNewsList(obj);
+      });
 
-    // return () => {
-    //   // controller.abort();
-    // };
+    return () => {
+      // controller.abort();
+    };
   }, [category]);
 
   return (

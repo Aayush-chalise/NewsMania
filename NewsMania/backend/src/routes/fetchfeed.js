@@ -17,12 +17,8 @@ const feeds = [
   "https://nagariknews.nagariknetwork.com/feed",
   "https://www.newsofnepal.com/feed",
   "https://www.onlinekhabar.com/feed",
-  "https://feeds.bbci.co.uk/news/rss.xml",
 
   "https://www.rajdhanidaily.com/feed",
-
-  "https://www.osnepal.com/feed",
-  "https://www.setopati.com/feed",
 ];
 
 router.get("/", async (req, res) => {
