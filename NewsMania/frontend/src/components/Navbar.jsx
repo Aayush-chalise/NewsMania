@@ -170,6 +170,39 @@ export default function Header() {
               >
                 Categories <ChevronDown size={18} />
               </button>
+              {isOpen && (
+                <motion.ul
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{
+                    duration: 0.15,
+                    scale: { type: "spring", bounce: 0.1 },
+                  }}
+                  className="absolute mt-2 w-36 bg-card-color rounded-lg shadow-lg z-50 
+                     border border-white/10 p-3 "
+                >
+                  {dropdownItems.map((item) => (
+                    <motion.li
+                      key={item}
+                      whileHover={{
+                        backgroundColor: "rgba(255,255,255,0.1)",
+                        color: "#f56565", // or your theme color
+                      }}
+                      onClick={() => {
+                        handleListItemClick(item);
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 20,
+                      }}
+                      className="w-full text-left font-medium text-[14px] block px-4 py-2 rounded-md text-white cursor-pointer"
+                    >
+                      {item}
+                    </motion.li>
+                  ))}
+                </motion.ul>
+              )}
             </li>
             <li>
               <motion.a
